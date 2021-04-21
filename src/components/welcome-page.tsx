@@ -111,7 +111,7 @@ export function WelcomePage() {
               <LoginForm onSubmit={login} errorMessage={errorMessage} />
             </Route>
             <Route path="/register">
-              <LoginForm onSubmit={register} option={LoginFormOptions.register} errorMessage={errorMessage} />
+              <LoginForm onSubmit={() => {}} option={LoginFormOptions.register} errorMessage={errorMessage} />
             </Route>
             <Route path="/">
               <img src={ReactLogo} alt="React Logo"/>

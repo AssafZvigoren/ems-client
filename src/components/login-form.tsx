@@ -24,12 +24,12 @@ export function LoginForm(props: LoginProps) {
   }
 
   return (
-    <div>
-      <form className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex flex-col items-center" autoComplete="off">
-        <div>
+    <div className="h-full w-full p-5">
+      <form className="p-4 max-w-sm mx-auto rounded-xl shadow-md flex flex-col items-center" autoComplete="off">
+        <div className="p-1">
           <TextField required id="email" value={emailValue} label="email" onChange={e => setEmailValue(e.target.value)} />
         </div>
-        <div>
+        <div className="p-1">
           <TextField required id="password" type="password" value={passwordValue} onChange={e => setPasswordValue(e.target.value)} label="password" />
         </div>
         <div className="p-5">

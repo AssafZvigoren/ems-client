@@ -7,13 +7,17 @@ const AuthContext = React.createContext({
   signIn: (email: string, password: string) => {},
   signOut: () => {},
   isSignedIn: () => {},
-  signUp: (email: string, password: string) => {}
+  signUp: (email: string, password: string) => {},
+  isInitialized: Boolean,
+  isLoading: Boolean
 })
 
 AuthContext.displayName = 'AuthContext'
 
 export function AuthProvider(props: any) {
   const [user, setUser] = useState({} as AuthUser)
+  const [isInitialized, setIsInitialized] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     isSignedIn()
@@ -22,8 +26,9 @@ export function AuthProvider(props: any) {
 
   async function signIn(email: string, password: string) {
     try {
+      setIsLoading(true)
       // eslint-disable-next-line
-      const response = await axios.post('http://localhost:9000/api/users/login', {email, password})
+      const response = await axios.post('https://zvigi-ems-server.herokuapp.com/api/users/login', {email, password})
       setUser({
         email,
         uid: response.data.uid,
@@ -34,16 +39,21 @@ export function AuthProvider(props: any) {
       setUser({
         errorMessage: err.response.data
       })
+    } finally {
+      setIsLoading(false)
     }
   }
 
   async function signOut() {
     try {
+      setIsLoading(true)
       // eslint-disable-next-line
-      const response = await axios.post('http://localhost:9000/api/users/logout')
+      const response = await axios.post('https://zvigi-ems-server.herokuapp.com/api/users/logout')
+      console.log(response)
     } catch (err) {
       console.error({...err})
     } finally {
+      setIsLoading(false)
       setUser({
         email: "",
         uid: "",
@@ -54,8 +64,9 @@ export function AuthProvider(props: any) {
 
   async function signUp(email: string, password: string) {
     try {
+      setIsLoading(true)
       // eslint-disable-next-line
-      const response = await axios.post('http://localhost:9000/api/users/register', {email, password})
+      const response = await axios.post('https://zvigi-ems-server.herokuapp.com/api/users/register', {email, password})
       setUser({
         email,
         uid: response.data.uid,
@@ -66,6 +77,8 @@ export function AuthProvider(props: any) {
       setUser({
         errorMessage: err.response.data
       })
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -74,7 +87,7 @@ export function AuthProvider(props: any) {
       return user.isAuthenticated!
     else {
       try {
-        const response = await axios.get('http://localhost:9000/api/users/isAuthenticated')
+        const response = await axios.get('https://zvigi-ems-server.herokuapp.com/api/users/isAuthenticated')
         setUser({
           email: response.data.email,
           uid: response.data.uid,
@@ -84,10 +97,10 @@ export function AuthProvider(props: any) {
 
         return true
       } catch (err) {
-        console.error({...err})
         return false
+      } finally {
+        setIsInitialized(true)
       }
-
     }
   }
 
@@ -96,7 +109,9 @@ export function AuthProvider(props: any) {
     signIn,
     signOut,
     signUp,
-    isSignedIn
+    isSignedIn,
+    isInitialized,
+    isLoading
   }
 
   return <AuthContext.Provider value={value} {...props} />

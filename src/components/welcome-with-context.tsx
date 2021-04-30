@@ -9,7 +9,7 @@ export function WelcomePage() {
   const {user, isInitialized} = useAuth()
 
   return (
-    <div className="h-full w-full p-5 flex flex-col items-center">
+    <div className="h-full w-full flex flex-col items-center">
       {!isInitialized ? (
         <Loader type="BallTriangle"
                 color="#00BFFF"

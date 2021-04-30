@@ -1,22 +1,16 @@
 import React from 'react'
 import { useAuth } from '../auth/AuthContext'
-import Button from '@material-ui/core/Button';
 import Loader from 'react-loader-spinner'
+import {BasePageTemplate} from '../authenticated/base-page-template'
 
-export function HomePage() {
-  const {signOut, isLoading} = useAuth()
+export function HomePage() {  
+  const {isLoading} = useAuth()
 
-  function clickedSignOut() {
-    signOut()
-  }
-
-  return (<div>
-    HomePage
+  return (
+    <div className="h-full w-full flex flex-col items-center">
     {
       !isLoading ? (
-        <div className="p-5">
-          <Button variant="contained" onClick={clickedSignOut}>Sign out</Button>
-        </div>
+        BasePageTemplate()
       ) : (
         <Loader type="BallTriangle"
                 color="#00BFFF"
@@ -25,5 +19,5 @@ export function HomePage() {
         />
       )
     }
-  </div>)
+    </div>)
 }

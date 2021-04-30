@@ -25,6 +25,10 @@ export function AuthProvider(props: any) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    setIsLoading(false)
+  }, [user])
+
   async function signIn(email: string, password: string) {
     try {
       setIsLoading(true)
@@ -40,8 +44,6 @@ export function AuthProvider(props: any) {
       setUser({
         errorMessage: err.response.data
       })
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -53,8 +55,7 @@ export function AuthProvider(props: any) {
       console.log(response)
     } catch (err) {
       console.error({...err})
-    } finally {
-      setIsLoading(false)
+    } finally {      
       setUser({
         email: "",
         uid: "",
@@ -78,8 +79,6 @@ export function AuthProvider(props: any) {
       setUser({
         errorMessage: err.response.data
       })
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -98,9 +97,8 @@ export function AuthProvider(props: any) {
 
         return true
       } catch (err) {
-        return false
-      } finally {
         setIsInitialized(true)
+        return false
       }
     }
   }

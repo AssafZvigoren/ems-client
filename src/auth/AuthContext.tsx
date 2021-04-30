@@ -1,8 +1,8 @@
 import React, {useContext, useState, useEffect} from 'react'
 import {AuthUser} from '../models/auth-user'
 import axios from 'axios'
-import {config} from '../config'
 
+const serverUrl = process.env.REACT_APP_SERVER_URL
 const AuthContext = React.createContext({
   user: {} as AuthUser,
   signIn: (email: string, password: string) => {},
@@ -29,7 +29,7 @@ export function AuthProvider(props: any) {
     try {
       setIsLoading(true)
       // eslint-disable-next-line
-      const response = await axios.post(`${config.serverUrl}/api/users/login`, {email, password})
+      const response = await axios.post(`${serverUrl}/api/users/login`, {email, password})
       setUser({
         email,
         uid: response.data.uid,
@@ -49,7 +49,7 @@ export function AuthProvider(props: any) {
     try {
       setIsLoading(true)
       // eslint-disable-next-line
-      const response = await axios.post(`${config.serverUrl}/api/users/logout`)
+      const response = await axios.post(`${serverUrl}/api/users/logout`)
       console.log(response)
     } catch (err) {
       console.error({...err})
@@ -67,7 +67,7 @@ export function AuthProvider(props: any) {
     try {
       setIsLoading(true)
       // eslint-disable-next-line
-      const response = await axios.post(`${config.serverUrl}/api/users/register`, {email, password})
+      const response = await axios.post(`${serverUrl}/api/users/register`, {email, password})
       setUser({
         email,
         uid: response.data.uid,
@@ -88,7 +88,7 @@ export function AuthProvider(props: any) {
       return user.isAuthenticated!
     else {
       try {
-        const response = await axios.get(`${config.serverUrl}/api/users/isAuthenticated`)
+        const response = await axios.get(`${serverUrl}/api/users/isAuthenticated`)
         setUser({
           email: response.data.email,
           uid: response.data.uid,

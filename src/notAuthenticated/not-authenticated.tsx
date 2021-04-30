@@ -30,10 +30,10 @@ export function NotAuthenticated() {
         {!isLoading ? (
           <div>
             <div className="p-5">
-              <Button variant="contained" onClick={clickedLogin}>Login</Button>
+              <Button variant="contained" onClick={clickedLogin}>Sign in</Button>
             </div>
             <div className="p-5">
-              <Button variant="contained" onClick={clickedRegister}>Register</Button>
+              <Button variant="contained" onClick={clickedRegister}>Sign up</Button>
             </div>
           </div>
         ) : (

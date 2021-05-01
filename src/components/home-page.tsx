@@ -10,7 +10,7 @@ export function HomePage() {
     <div className="h-full w-full flex flex-col items-center">
     {
       !isLoading ? (
-        BasePageTemplate()
+        <BasePageTemplate />
       ) : (
         <Loader type="BallTriangle"
                 color="#00BFFF"

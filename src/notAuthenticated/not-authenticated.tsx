@@ -7,7 +7,7 @@ import Loader from 'react-loader-spinner'
 export function NotAuthenticated() {
   const {user, signIn, signUp, isLoading} = useAuth()
   
-  const [emailValue, setEmailValue] = useState("")
+  const [emailValue, setEmailValue] = useState(user.email ? user.email : "")
   const [passwordValue, setPasswordValue] = useState("")
 
   async function clickedLogin() {

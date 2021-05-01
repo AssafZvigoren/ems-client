@@ -16,6 +16,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import ReactLogo from '../logo.svg'
+import {UserProfile} from './user-profile'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import {
   BrowserRouter as Router,
@@ -70,71 +71,77 @@ export function BasePageTemplate() {
   };
   
   return (
-    <div className="md:flex w-full items-center flex-col">
-      <AppBar position="static">
-          <Toolbar>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setIsDrawerDisplayed(true)}>
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" className={classes.title}>
-              {/* <Link className={classes.link} to="/">EMS</Link> */}
-              EMS
-            </Typography>
-            <div>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
+    <Router>
+      <div className="md:flex w-full items-center flex-col">
+        <AppBar position="static">
+            <Toolbar>
+              <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setIsDrawerDisplayed(true)}>
+                <MenuIcon />
               </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={isUserMenuOpen}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={clickedSignOut}>Sign out</MenuItem>
-              </Menu>
-            </div>
-          </Toolbar>
-          <div className="flex w-1/6">
-            <React.Fragment key="drawer">
-              <Drawer
-                anchor="left"
-                open={isDrawerDisplayed}
-                onClose={() => toggleDrawer(false)}
-              >
-                <List className="w-full">
-                  <ListItem key='avatar'>
-                    <ListItemAvatar children={(<img src={ReactLogo} alt="React Logo" />)}></ListItemAvatar>
-                  </ListItem>
-                  <Divider />
-                  {/* {['Login','Register'].map((text) => (
-                    <ListItem button key={text}>
-                      <Link to={text}>
-                        <ListItemText primary={text} onClick={() => toggleDrawer(false)} />
-                        
-                      </Link>
+              <Typography variant="h6" className={classes.title}>
+                EMS
+              </Typography>
+              <div>
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={isUserMenuOpen}
+                  onClose={handleClose}
+                >
+                  <Link className={classes.link} to="/profile" onClick={handleClose}><MenuItem>Profile</MenuItem></Link>
+                  <Link className={classes.link} to="/" onClick={clickedSignOut}><MenuItem>Sign out</MenuItem></Link>
+                </Menu>
+              </div>
+            </Toolbar>
+            <div className="flex w-1/6">
+              <React.Fragment key="drawer">
+                <Drawer
+                  anchor="left"
+                  open={isDrawerDisplayed}
+                  onClose={() => toggleDrawer(false)}
+                >
+                  <List className="w-full">
+                    <ListItem key='avatar'>
+                      <ListItemAvatar children={(<img src={ReactLogo} alt="React Logo" />)}></ListItemAvatar>
                     </ListItem>
-                  ))} */}
-                </List>
-              </Drawer>
-            </React.Fragment>
-          </div>
-      </AppBar>
-    </div>
+                    <Divider />
+                    {/* {['Login','Register'].map((text) => (
+                      <ListItem button key={text}>
+                        <Link to={text}>
+                          <ListItemText primary={text} onClick={() => toggleDrawer(false)} />
+                          
+                        </Link>
+                      </ListItem>
+                    ))} */}
+                  </List>
+                </Drawer>
+              </React.Fragment>
+            </div>
+        </AppBar>
+        <Switch>
+          <Route path="/profile">
+            <UserProfile />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   )
 }

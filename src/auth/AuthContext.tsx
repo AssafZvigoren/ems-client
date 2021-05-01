@@ -1,15 +1,15 @@
 import React, {useContext, useState, useEffect} from 'react'
 import {AuthUser} from '../models/auth-user'
 import axios from 'axios'
+import {config} from '../config'
+const {serverUrl} = config
 
-const serverUrl = process.env.REACT_APP_SERVER_URL
 const AuthContext = React.createContext({
   user: {} as AuthUser,
   signIn: (email: string, password: string) => {},
   signOut: () => {},
   isSignedIn: () => {},
   signUp: (email: string, password: string) => {},
-  isInitialized: Boolean,
   isLoading: Boolean
 })
 
@@ -17,10 +17,10 @@ AuthContext.displayName = 'AuthContext'
 
 export function AuthProvider(props: any) {
   const [user, setUser] = useState({} as AuthUser)
-  const [isInitialized, setIsInitialized] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
+    setIsLoading(true)
     isSignedIn()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -42,6 +42,7 @@ export function AuthProvider(props: any) {
     } catch (err) {
       console.error({...err})
       setUser({
+        email,
         errorMessage: err.response.data
       })
     }
@@ -77,6 +78,7 @@ export function AuthProvider(props: any) {
     } catch (err) {
       console.error({...err})
       setUser({
+        email,
         errorMessage: err.response.data
       })
     }
@@ -97,7 +99,7 @@ export function AuthProvider(props: any) {
 
         return true
       } catch (err) {
-        setIsInitialized(true)
+        setIsLoading(false)
         return false
       }
     }
@@ -109,7 +111,6 @@ export function AuthProvider(props: any) {
     signOut,
     signUp,
     isSignedIn,
-    isInitialized,
     isLoading
   }
 

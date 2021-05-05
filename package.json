@@ -15,7 +15,7 @@
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
     "axios": "^0.21.1",
-    "dotenv": "^8.2.0",
+    "dotenv": "^8.6.0",
     "firebase": "^8.4.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -30,7 +30,6 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "postbuild": "rimraf build/**/*.map",
     "test": "craco test",
     "eject": "react-scripts eject"
   },

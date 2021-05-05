@@ -1,8 +1,6 @@
 import React, {useContext, useState, useEffect} from 'react'
-import {AuthUser} from '../models/auth-user'
 import {api} from './FirebaseApi'
 import firebase from 'firebase'
-import axios from 'axios'
 
 const AuthContext = React.createContext({
   user: {} as firebase.User | null,

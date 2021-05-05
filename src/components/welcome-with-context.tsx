@@ -6,18 +6,18 @@ import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 export function WelcomePage() {
-  const {user, isLoading} = useAuth()
+  const {user, status} = useAuth()
 
   return (
     <div className="h-full w-full flex flex-col items-center">
-      {!!isLoading ? (
+      {status.isLoading && !user ? (
         <Loader type="BallTriangle"
                 color="#00BFFF"
                 height={100}
                 width={100}
         />
       ) : 
-        user.isAuthenticated ? (
+        user ? (
           <HomePage />
         ) : (
           <NotAuthenticated />

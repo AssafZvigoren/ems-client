@@ -5,9 +5,9 @@ import Button from '@material-ui/core/Button';
 import Loader from 'react-loader-spinner'
 
 export function NotAuthenticated() {
-  const {user, signIn, signUp, isLoading} = useAuth()
+  const {signIn, signUp, status} = useAuth()
   
-  const [emailValue, setEmailValue] = useState(user.email ? user.email : "")
+  const [emailValue, setEmailValue] = useState("")
   const [passwordValue, setPasswordValue] = useState("")
 
   async function clickedLogin() {
@@ -27,7 +27,7 @@ export function NotAuthenticated() {
         <div className="p-1">
           <TextField required id="password" type="password" value={passwordValue} onChange={e => setPasswordValue(e.target.value)} label="password" />
         </div>
-        {!isLoading ? (
+        {!status.isLoading ? (
           <div>
             <div className="p-5">
               <Button variant="contained" onClick={clickedLogin}>Sign in</Button>
@@ -44,7 +44,7 @@ export function NotAuthenticated() {
         />
         ) }
         <div className="text-red-500">
-          {user.errorMessage}
+          {status.errorMessage}
         </div>
       </form>
     </div>

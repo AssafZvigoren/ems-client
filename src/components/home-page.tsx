@@ -4,12 +4,12 @@ import Loader from 'react-loader-spinner'
 import {BasePageTemplate} from '../authenticated/base-page-template'
 
 export function HomePage() {  
-  const {isLoading} = useAuth()
+  const {status} = useAuth()
 
   return (
     <div className="h-full w-full flex flex-col items-center">
     {
-      !isLoading ? (
+      !status.isLoading ? (
         <BasePageTemplate />
       ) : (
         <Loader type="BallTriangle"

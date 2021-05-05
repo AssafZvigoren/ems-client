@@ -1,108 +1,66 @@
 import React, {useContext, useState, useEffect} from 'react'
 import {AuthUser} from '../models/auth-user'
+import {api} from './FirebaseApi'
+import firebase from 'firebase'
 import axios from 'axios'
 import {config} from '../config'
 const {serverUrl} = config
 
 const AuthContext = React.createContext({
-  user: {} as AuthUser,
+  user: {} as firebase.User | null,
   signIn: (email: string, password: string) => {},
   signOut: () => {},
-  isSignedIn: () => {},
   signUp: (email: string, password: string) => {},
-  isLoading: Boolean
+  reloadUser: () => {},
+  status: {} as {isLoading?: Boolean, errorMessage?: string}
 })
 
 AuthContext.displayName = 'AuthContext'
 
 export function AuthProvider(props: any) {
-  const [user, setUser] = useState({} as AuthUser)
-  const [isLoading, setIsLoading] = useState(false)
+  const [status, setStatus] = useState({isLoading: false, errorMessage: ""})
+  const [user, setUser] = useState(api.getCurrentUser)
 
   useEffect(() => {
-    setIsLoading(true)
-    isSignedIn()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    setIsLoading(false)
+    setStatus({isLoading: false, errorMessage: ""})
   }, [user])
 
-  async function signIn(email: string, password: string) {
-    try {
-      setIsLoading(true)
-      // eslint-disable-next-line
-      const response = await axios.post(`${serverUrl}/api/users/login`, {email, password})
-      setUser({
-        email,
-        uid: response.data.uid,
-        isAuthenticated: true
-      })
-    } catch (err) {
-      console.error({...err})
-      setUser({
-        email,
-        errorMessage: err.response.data
-      })
+  useEffect(() => {
+    const unsubscribe = api.onAuthStateChanged(userStateChange, onAuthError)
+
+    return () => {
+      unsubscribe()
     }
+  }, [])
+
+  function userStateChange(user: firebase.User | null) {
+    setUser(user)
+  }
+
+  function reloadUser() {
+    userStateChange(api.getCurrentUser())
+  }
+
+  function onAuthError(err: firebase.auth.Error) {
+    setStatus({
+      isLoading: false,
+      errorMessage: err.message
+    })
+  }
+
+  async function signIn(email: string, password: string) {
+    setStatus({...status, isLoading: true})
+    api.signIn(email, password)
   }
 
   async function signOut() {
-    try {
-      setIsLoading(true)
-      // eslint-disable-next-line
-      const response = await axios.post(`${serverUrl}/api/users/logout`)
-      console.log(response)
-    } catch (err) {
-      console.error({...err})
-    } finally {      
-      setUser({
-        email: "",
-        uid: "",
-        isAuthenticated: false
-      })
-    }
+    setStatus({...status, isLoading: true})
+    api.signOut()
   }
 
   async function signUp(email: string, password: string) {
-    try {
-      setIsLoading(true)
-      // eslint-disable-next-line
-      const response = await axios.post(`${serverUrl}/api/users/register`, {email, password})
-      setUser({
-        email,
-        uid: response.data.uid,
-        isAuthenticated: true
-      })
-    } catch (err) {
-      console.error({...err})
-      setUser({
-        email,
-        errorMessage: err.response.data
-      })
-    }
-  }
-
-  async function isSignedIn() {
-    if (user.isAuthenticated !== undefined && user.isAuthenticated !== null)
-      return user.isAuthenticated!
-    else {
-      try {
-        const response = await axios.get(`${serverUrl}/api/users/isAuthenticated`)
-        setUser({
-          email: response.data.email,
-          uid: response.data.uid,
-          errorMessage: "",
-          isAuthenticated: true
-        })
-
-        return true
-      } catch (err) {
-        setIsLoading(false)
-        return false
-      }
-    }
+    setStatus({...status, isLoading: true})
+    api.signUp(email, password)
   }
 
   const value = {
@@ -110,8 +68,8 @@ export function AuthProvider(props: any) {
     signIn,
     signOut,
     signUp,
-    isSignedIn,
-    isLoading
+    reloadUser,
+    status
   }
 
   return <AuthContext.Provider value={value} {...props} />

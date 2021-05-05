@@ -1,42 +1,33 @@
 import React, {useState, useEffect} from 'react'
-import axios from 'axios'
-import {config} from '../config'
-import Loader from 'react-loader-spinner'
+import { useAuth } from '../auth/AuthContext'
+import {api} from '../auth/FirebaseApi'
 
 export function UserProfile() {
-  const [userDetails, setUserDetails] = useState({displayName: "", photoURL: ""})
-  const [isLoading, setIsLoading] = useState(false)
+  const {user, reloadUser} = useAuth()
+  const {addImage, updateUserProfile} = api
 
-  useEffect(() => {
-    setIsLoading(false)
-  }, [userDetails])
-
-  useEffect(() => {
-    setIsLoading(true)
-    axios.get(`${config.serverUrl}/api/users/getUserProfile`)
+  function uploadImage(e: any) {
+    let image = e.target.files[0]
+    addImage(image)
+      .then(async (res) => {
+        const url = await res.ref.getDownloadURL()
+        return updateUserProfile({
+          displayName: "sfaasdffasd",
+          photoURL: url
+        })
+      })
       .then(res => {
-        const {displayName, photoURL} = res.data
-        setUserDetails({displayName: "asdads", photoURL})
+        reloadUser()
       })
       .catch(err => {
-        setIsLoading(false)
+        console.error({...err});
       })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }
 
   return (
     <>
-    {isLoading ? (
-      <Loader type="BallTriangle"
-              color="#00BFFF"
-              height={100}
-              width={100}
-      />
-    ) : (
-      <>
-        {userDetails.displayName}
+        {user?.displayName}
+        <input type="file" accept="image/*" id="imageUploader" onChange={uploadImage}/>
       </>
-    )}
-    </>
   )
 }

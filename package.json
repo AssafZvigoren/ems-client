@@ -31,6 +31,7 @@
     "start:dev": "craco start",
     "start": "serve -s build",
     "build": "craco build",
+    "postbuild": "npm i -g serve && rimraf build/**/*.map",
     "test": "craco test",
     "eject": "react-scripts eject"
   },

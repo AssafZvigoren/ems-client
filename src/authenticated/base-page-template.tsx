@@ -18,7 +18,6 @@ import Menu from '@material-ui/core/Menu'
 import axios from 'axios'
 import ReactLogo from '../logo.svg'
 import {UserProfile} from './user-profile'
-import {config} from '../config'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import {
   BrowserRouter as Router,

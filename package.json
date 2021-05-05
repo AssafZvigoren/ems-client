@@ -22,6 +22,7 @@
     "react-loader-spinner": "^4.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "rimraf": "^3.0.2",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.2",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
@@ -29,6 +30,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "postbuild": "rimraf build/**/*.map",
     "test": "craco test",
     "eject": "react-scripts eject"
   },

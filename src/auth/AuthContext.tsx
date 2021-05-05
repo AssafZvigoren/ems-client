@@ -3,8 +3,6 @@ import {AuthUser} from '../models/auth-user'
 import {api} from './FirebaseApi'
 import firebase from 'firebase'
 import axios from 'axios'
-import {config} from '../config'
-const {serverUrl} = config
 
 const AuthContext = React.createContext({
   user: {} as firebase.User | null,

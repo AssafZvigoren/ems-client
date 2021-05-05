@@ -1,7 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/storage";
-import * as firebaseui from 'firebaseui'
 import {firebaseConfig} from './FirebaseConfig'
 
 class FirebaseApi {

@@ -77,7 +77,9 @@ export function BasePageTemplate() {
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6" className={classes.title}>
-                EMS
+                <Link className={classes.link} to="/">
+                  EMS
+                </Link>
               </Typography>
               <div>
                 <IconButton
@@ -121,14 +123,6 @@ export function BasePageTemplate() {
                       <ListItemAvatar children={(<img src={ReactLogo} alt="React Logo" />)}></ListItemAvatar>
                     </ListItem>
                     <Divider />
-                    {/* {['Login','Register'].map((text) => (
-                      <ListItem button key={text}>
-                        <Link to={text}>
-                          <ListItemText primary={text} onClick={() => toggleDrawer(false)} />
-                          
-                        </Link>
-                      </ListItem>
-                    ))} */}
                   </List>
                 </Drawer>
               </React.Fragment>

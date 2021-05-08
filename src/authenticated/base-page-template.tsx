@@ -22,6 +22,7 @@ import {
   Route,
   Link
 } from "react-router-dom"
+import {CalendarDisplay} from './calendar-display'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -107,6 +108,7 @@ export function BasePageTemplate() {
                   onClose={handleClose}
                 >
                   <MenuItem><Link className={classes.link} to="/profile" onClick={handleClose}>Profile</Link></MenuItem>
+                  <MenuItem><Link className={classes.link} to="/calendar" onClick={handleClose}>Calendar</Link></MenuItem>
                   <MenuItem><Link className={classes.link} to="/" onClick={clickedSignOut}>Sign out</Link></MenuItem>
                 </Menu>
               </div>
@@ -131,6 +133,9 @@ export function BasePageTemplate() {
         <Switch>
           <Route path="/profile">
             <UserProfile />
+          </Route>
+          <Route path="/calendar">
+            <CalendarDisplay />
           </Route>
         </Switch>
       </div>
